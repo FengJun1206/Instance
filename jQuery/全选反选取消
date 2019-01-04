@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>page1</title>
+</head>
+<body>
+
+<button onclick="selectAll()">全选</button>
+<button onclick="cancel()">取消</button>
+<button onclick="reverse()">反选</button>
+
+<table border="1px solid black">
+    <tr>
+        <td><input type="checkbox"></td>
+        <td>111</td>
+    </tr>
+
+    <tr>
+        <td><input type="checkbox"></td>
+        <td>222</td>
+    </tr>
+
+    <tr>
+        <td><input type="checkbox"></td>
+        <td>333</td>
+    </tr>
+</table>
+
+
+<script src="jquery-3.3.1.min.js"></script>
+<script>
+
+    function selectAll(){
+        $(':checkbox').prop('checked', true);
+    }
+
+    function cancel(){
+        $(':checkbox').prop('checked', false);
+    }
+	
+    // 利用了 each() 遍历循环每一个 input 标签
+    function reverse(){
+        $(':checkbox').each(function () {
+            if ($(this).prop('checked')){
+                $(this).prop('checked', false);
+            }
+            else {
+                $(this).prop('checked', true);
+            }
+        })
+    }
+</script>
+</body>
+</html>
