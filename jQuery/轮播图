@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>轮播图</title>
+    <style type="text/css">
+        .outer{
+            width: 593px;
+            height: 471px;
+            margin: 80px auto;
+            position: relative;
+        }
+
+        .img li{
+            position: absolute;
+            top: 0;
+            left: 0;
+            list-style: none;
+        }
+
+        .num{
+            position: absolute;
+            bottom: 20px;
+            left: 220px;
+        }
+
+        .num li{
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            background-color: white;
+            list-style: none;
+
+            line-height: 18px;
+            text-align: center;
+            border-radius: 50%;     /*圆形*/
+        }
+
+        .btn{
+            position: absolute;
+            top: 50%;
+            width: 30px;
+            height: 60px;
+            background-color: #999999;
+            font-size: 30px;
+            color: white;
+
+            line-height: 60px;
+            text-align: center;
+            margin-top: -30px;
+            opacity: 0.7;
+
+            display: none;      /*隐藏*/
+        }
+
+        .outer:hover .btn{
+            display: block;
+        }
+
+
+        .right{
+            right: 0;
+        }
+
+        .outer .num .active{
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="outer">
+
+        <ul class="img">
+            <li><a><img src="images/1.png"></a></li>
+            <li><a><img src="images/2.png"></a></li>
+            <li><a><img src="images/3.png"></a></li>
+            <li><a><img src="images/4.png"></a></li>
+            <li><a><img src="images/5.png"></a></li>
+            <li><a><img src="images/6.png"></a></li>
+
+        </ul>
+
+
+
+        <ul class="num">
+            <!--<li class="active">1</li>-->
+            <!--<li>2</li>-->
+            <!--<li>3</li>-->
+            <!--<li>4</li>-->
+            <!--<li>5</li>-->
+            <!--<li>6</li>-->
+
+        </ul>
+
+
+        <div class="left btn"> < </div>
+        <div class="right btn"> > </div>
+
+    </div>
+
+
+<script src="jquery-3.3.1.min.js"></script>
+<script>
+    // 初始化索引值
+    var i = 0;
+
+    // 获取图片数量（6）
+    var img_num = $('.img li').length;
+
+    // 通过 jQuery活动添加 li 标签，即中间的小圆点
+    for (var j=0; j<img_num; j++){
+        $('.num').append('<li></li>')
+    }
+
+
+    // 手动轮播(鼠标移动到小圆点上时，小圆点显示相应背景样式，并切换出对应图)
+    $('.num li').mousemove(function () {
+        // 获取当前li的索引值，当鼠标移动到哪个小圆点上时，即第几个 li 标签
+        i = $(this).index();
+
+        // 添加红色背景样式（鼠标移动到哪个小圆点上，即变红，其他没有颜色）
+        $(this).addClass('active').siblings().removeClass('active');
+
+        // 鼠标点击哪个小圆点，用其li 索引，获取对应图片，其余图片隐藏
+        $('.img li').eq(i).stop().fadeIn(200).siblings().stop().fadeOut(200);
+    });
+
+
+    // 自动轮播，没过1.5s，轮播一次
+    var clock = setInterval(Go_R, 1500);        // 定义一个闹钟
+
+    // 向右
+    function Go_R() {
+        if (i==img_num-1){
+            i =-1
+        }
+        i++;
+        $('.num li').eq(i).addClass('active').siblings().removeClass('active');
+
+        $('.img li').eq(i).stop().fadeIn(1000).siblings().stop().fadeOut(1000);
+    }
+
+    // 清除自动轮播，当鼠标浮动到图片上时，自动轮播消失，鼠标移开时则继续自动轮播
+    $('.outer').hover(function () {
+        clearInterval(clock);
+    },function () {
+        clock=setInterval(Go_R, 1500)
+    });
+
+    // 向左
+    function Go_L() {
+        if (i==0){
+            i = img_num
+        }
+        i--;
+        $('.num li').eq(i).addClass('active').siblings().removeClass('active');
+
+        $('.img li').eq(i).stop().fadeIn(1000).siblings().stop().fadeOut(1000);
+    }
+    
+    
+    // 左右定播
+    $('.right').click(Go_R);
+    $('.left').click(Go_L);
+
+    // 鼠标移动到图片、左右方向以及小圆点上变成小手
+    $('.img li').css("cursor","pointer");
+    $('.btn').css("cursor","pointer");
+    $('.num li').css("cursor","pointer");
+
+
+//    //鼠标移动到小圆点上时，小圆点显示相应背景样式，并切换出对应图
+//    $('.num li').mousemove(function () {
+//        i = $(this).index();
+//        $(this).addClass('active').siblings().removeClass('active');
+//        $('.img li').eq(i).stop().fadeIn(1000).siblings().stop().fadeOut(1000);
+//    })
+
+</script>
+</body>
+</html>
